@@ -9,10 +9,14 @@ int main() {
 	scanf("%d",&n);
 	for (int i=1;i<=n;i++) scanf("%d",&a[i]);
 	
-	// Initialize.
-	fill(m+1,m+1+n,1);
+	// Create base.
+	m[1]=1;
 	
+	// Update and memo (multiple options).
 	for (int i=2;i<=n;i++) {
+		// Initialize.
+		m[i]=1;
+		
 		// Update and memo.
 		for (int j=i-1;j>=1;j--) {
 			if (a[j]<a[i]) m[i]=max(m[i],m[j]+1);
