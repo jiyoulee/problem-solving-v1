@@ -13,7 +13,7 @@ int main() {
 		}
 	}
 	
-	// Initialize.
+	// Create base.
 	m[1][1]=1;
 	
 	// Update and memo (single option).

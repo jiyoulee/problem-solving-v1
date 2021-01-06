@@ -9,7 +9,7 @@ int main() {
 	scanf("%d%d",&N,&M);
 	for (int i=1;i<=M;i++) {scanf("%d",&idx);a[idx]=true;}
 	
-	// Initialize.
+	// Create base.
 	m[1]=1;
 	if (!a[1]&&!a[2]) m[2]=2; else m[2]=1;
 	
