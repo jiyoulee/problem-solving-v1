@@ -15,14 +15,14 @@ int main() {
 			if (max_pq.empty() && min_pq.empty()) {		// Both priorities queues are empty.
 				printf("0\n");
 			}
-			else if (max_pq.empty() || (!max_pq.empty() && !min_pq.empty() && abs(max_pq.top()) > min_pq.top())) {
+			else if (max_pq.empty() || (!min_pq.empty() && abs(max_pq.top()) > min_pq.top())) {
 														// No negative integers in the "array".
 														// or
 														// Value of smallest positive integer is less than absolute value of largest negative integer. 
 				printf("%d\n", min_pq.top());
 				min_pq.pop();
 			}
-			else if (min_pq.empty() || (!max_pq.empty() && !min_pq.empty() && abs(max_pq.top()) <= min_pq.top())) {
+			else if (min_pq.empty() || (!max_pq.empty() && abs(max_pq.top()) <= min_pq.top())) {
 														// No positive integers in the "array".
 														// or
 														// Absolute value of largest negative integer is less than the value of smallest positive integer.
