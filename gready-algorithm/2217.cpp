@@ -16,7 +16,7 @@ int main() {
 	 * 2) The maximum mass a chosen set of ropes with y being the smallest rope length, connected, is max(x) * y = (number of ropes whose length is greater than or equal to y) * y.
 	 */
 	sort(a + 1, a + 1 + N);
-	for (int i = N; i >= 1; i--) {
+	for (int i = N; i >= 1; i--) { // i is the index of the smallest rope length
 		ans = max(ans, a[i] * (N - i + 1));
 	}
 	

@@ -17,7 +17,7 @@ int main() {
 	 */
 	sort(a + 1, a + 1 + N);
 	endpoint = a[1] - 0.5 + L;
-	for (int i = 1; i <= N; i++) {
+	for (int i = 1; i <= N; i++) { // i is the index of the hole of which its coverage is being considered.
 		if (a[i] + 0.5 > endpoint) {
 			cnt++;
 			endpoint = a[i] - 0.5 + L;
