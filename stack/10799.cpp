@@ -1,14 +1,15 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-int tmp, ans;
+int tmp, ans, l;
 char a[100001];
 vector<int> v;
 
 int main() {
 	scanf("%s", a);
 	
-	for (int i = 0; i < strlen(a); i++) {
+	l = strlen(a);
+	for (int i = 0; i < l; i++) {
 		if ('(' == a[i]) {						// Either the hint of 1) a laser or 2) a stick is found.
 			v.push_back(0);
 		}
