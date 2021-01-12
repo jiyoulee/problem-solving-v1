@@ -28,9 +28,9 @@ void track(int v, int h, int cnt) {	// Do brute force search on combination of q
 
 	/*
 	 * Else,
-	 * (1. Lock.)
+	 * (1. Lock before selecting any children.)
 	 * 2. Explore subtree.
-	 * (3. Unlock.)
+	 * (3. Unlock after returning from all children.)
 	 */
 	locked[0][h] = true;
 	locked[1][v+h] = true;
