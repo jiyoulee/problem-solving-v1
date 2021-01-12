@@ -16,7 +16,7 @@ int locked[3][2 * UPPER_BOUND];
  * Implemented using DFS on tree.
  * Therefore, one does not need to worry about "keys", but only "locks".
  */
-void track(int v, int h, int cnt) {
+void track(int v, int h, int cnt) {	// Do brute force search on combination of queen locations.
 	/* If count is full (i.e. all queens have been placed),
 	 * 1. Do something: record.
 	 * 2. Return.

@@ -6,7 +6,7 @@ using namespace std;
 int N, S, ans;
 int a[UPPER_BOUND];
 
-void track(int n, int s) {
+void track(int n, int s) { // Do brute force search on combination of numbers given.
 	if (0 < n && S == s) {
 		ans++;
 	}
