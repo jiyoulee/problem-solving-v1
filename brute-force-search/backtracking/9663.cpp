@@ -1,7 +1,7 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-#define MAX_N 15
+#define UPPER_BOUND 15
 
 int N, ans;
 /*
@@ -10,12 +10,16 @@ int N, ans;
  * locked[2]: diagonal starting at lower left and ending at upper right.
  * locked[3]: diagonal starting at upper left and ending at lower right.
  */
-int locked[3][2 * MAX_N];
+int locked[3][2 * UPPER_BOUND];
 
+/*
+ * Implemented using DFS on tree.
+ * Therefore, one does not need to worry about "keys", but only "locks".
+ */
 void track(int v, int h, int cnt) {
 	/* If count is full (i.e. all queens have been placed),
 	 * 1. Do something: record.
-	 * 2. Exit.
+	 * 2. Return.
 	 */
 	if (N == cnt) {
 		ans++;
@@ -24,9 +28,9 @@ void track(int v, int h, int cnt) {
 
 	/*
 	 * Else,
-	 * 1. Lock.
+	 * (1. Lock.)
 	 * 2. Explore subtree.
-	 * 3. Unlock.
+	 * (3. Unlock.)
 	 */
 	locked[0][h] = true;
 	locked[1][v+h] = true;
