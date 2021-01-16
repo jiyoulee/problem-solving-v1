@@ -17,6 +17,7 @@ int main() {
 	
 	if (M <= 0) {
 		printf("0");
+		
 		return 0;
 	}
 	else {
