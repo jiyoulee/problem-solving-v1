@@ -5,7 +5,7 @@ int N, M;
 int a[1000001];
 
 int good(long long x) { // x is the time taken to make all balloons.
-	long long cnt=0;
+	long long cnt = 0;
 	for (int i = 1; i <= N; i++) {
 		cnt += x/a[i];
 	}
@@ -14,7 +14,7 @@ int good(long long x) { // x is the time taken to make all balloons.
 
 int main() {
 	scanf("%d%d", &N, &M);
-	for (int i = 1;i <= N; i++) {
+	for (int i = 1; i <= N; i++) {
 		scanf("%d", a + i);
 	}
 	
@@ -24,6 +24,7 @@ int main() {
 	long long h;
 	while (l <= r) {
 		h = (l + r) / 2;
+		
 		if (good(h)) {
 			r = h - 1;
 		}
@@ -32,7 +33,7 @@ int main() {
 		}
 	}
 	
-	printf("%lld",l);
+	printf("%lld", l);
 	
 	return 0;
 }

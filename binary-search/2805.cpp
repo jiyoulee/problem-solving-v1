@@ -28,7 +28,7 @@ int main() {
 	// Do binary search.
 	while (l <= r) {					// Check whether range is valid.
 		h = (l + r) / 2;				// Get halfway point of range.
-		if (candidate(h)) {					// Halfway point is a candidate.
+		if (candidate(h)) {				// Halfway point is a candidate.
 			l = h + 1;
 		}
 		else {							// Halfway point is not a candidate.
