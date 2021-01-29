@@ -11,6 +11,7 @@ int main() {
 	scanf("%d%d", &A, &B);
 	
 	printf("%d\n%d", gcd(A, B), A / gcd(A, B) * B);		// Cf. A * B / gcd(A, B) (X, overflow)
+														// Cf. gcd() : O(log(N)), lcm() : O(log(N))
 	
 	return 0;
 }
