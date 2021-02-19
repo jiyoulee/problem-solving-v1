@@ -2,9 +2,9 @@
 using namespace std;
 
 int N, M, nv, nh, ans;
-char A[1000][1000];
+char A[1000][1001];
 int parent[1000000];
-int [1000000];
+int b[1000000];
 int dv[4]={0, 1, 0, -1};
 int dh[4]={1, 0, -1, 0};
 vector<int> s;
