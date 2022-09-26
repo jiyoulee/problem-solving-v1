@@ -17,7 +17,6 @@ constexpr int dy[DIRECTION_CNT] = {0, 0, -1, 1};
 int answer;
 int M, N;
 int x, y, nx, ny;
-int ripe_square_cnt, empty_square_cnt;
 int grid[MAX_N][MAX_M];
 queue<pair<int,int>> ripe_tomatoes;
 
@@ -40,7 +39,7 @@ int main(int argc, char** argv) {
         for (int i = 0; DIRECTION_CNT > i; ++i) {
             nx = x + dx[i];
             ny = y + dy[i];
-                if (0 <= nx && N > nx && 0 <= ny && M > ny && 0 == grid[nx][ny]) {
+            if (0 <= nx && N > nx && 0 <= ny && M > ny && 0 == grid[nx][ny]) {
                 grid[nx][ny] = grid[x][y] + 1;
                 ripe_tomatoes.emplace(nx, ny);
             }
@@ -57,7 +56,6 @@ int main(int argc, char** argv) {
             answer = max(answer, grid[i][j]);
         }
     }
-
     printf("%d", answer - 1);
 
     return 0;
