@@ -21,6 +21,9 @@ int grid[MAX_N][MAX_M];
 queue<pair<int,int>> ripe_tomatoes;
 
 int main(int argc, char** argv) {
+    /*
+     * Get list of originally ripe tomatoes.
+     */
     scanf("%d%d", &M, &N);
     for (int i = 0; N > i; ++i) {
         for (int j = 0; M > j; ++j) {
@@ -31,6 +34,9 @@ int main(int argc, char** argv) {
         }
     }
 
+    /*
+     * Let ripening take effect.
+     */
     while (!ripe_tomatoes.empty()) {
         x = ripe_tomatoes.front().first;
         y = ripe_tomatoes.front().second;
@@ -46,6 +52,9 @@ int main(int argc, char** argv) {
         }
     }
 
+    /*
+     * Decide if all the tomatos have been ripened, and if so, how long it took.
+     */
     for (int i = 0; N > i; ++i) {
         for (int j = 0; M > j; ++j) {
             if (0 == grid[i][j]) {
