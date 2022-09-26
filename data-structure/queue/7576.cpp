@@ -14,17 +14,12 @@ constexpr int DIRECTION_CNT = 4;
 constexpr int dx[DIRECTION_CNT] = {-1, 1, 0, 0};
 constexpr int dy[DIRECTION_CNT] = {0, 0, -1, 1};
 
-struct Tomato {
-    int x;
-    int y;
-} tomato_pool[MAX_N * MAX_M + 10];
-
 int answer;
 int M, N;
 int x, y, nx, ny;
+int ripe_square_cnt, empty_square_cnt;
 int grid[MAX_N][MAX_M];
-int tomato_idx;
-queue<Tomato> ripe_tomatoes;
+queue<pair<int,int>> ripe_tomatoes;
 
 int main(int argc, char** argv) {
     scanf("%d%d", &M, &N);
@@ -32,16 +27,14 @@ int main(int argc, char** argv) {
         for (int j = 0; M > j; ++j) {
             scanf("%d", &grid[i][j]);
             if (1 == grid[i][j]) {
-                tomato_pool[tomato_idx].x = i;
-                tomato_pool[tomato_idx].y = j;
-                ripe_tomatoes.emplace(tomato_pool[tomato_idx++]);
+                ripe_tomatoes.emplace(i, j);
             }
         }
     }
 
     while (!ripe_tomatoes.empty()) {
-        x = ripe_tomatoes.front().x;
-        y = ripe_tomatoes.front().y;
+        x = ripe_tomatoes.front().first;
+        y = ripe_tomatoes.front().second;
         ripe_tomatoes.pop();
 
         for (int i = 0; DIRECTION_CNT > i; ++i) {
@@ -49,9 +42,7 @@ int main(int argc, char** argv) {
             ny = y + dy[i];
                 if (0 <= nx && N > nx && 0 <= ny && M > ny && 0 == grid[nx][ny]) {
                 grid[nx][ny] = grid[x][y] + 1;
-                tomato_pool[tomato_idx].x = nx;
-                tomato_pool[tomato_idx].y = ny;
-                ripe_tomatoes.emplace(tomato_pool[tomato_idx++]);
+                ripe_tomatoes.emplace(nx, ny);
             }
         }
     }
