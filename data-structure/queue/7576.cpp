@@ -42,11 +42,7 @@ int main(int argc, char** argv) {
             }
         }
     }
-
-    if (0 == ripe_square_cnt) {
-        printf("-1");
-        return 0;
-    }
+    
     if (N * M == ripe_square_cnt + empty_square_cnt) {
         printf("0");
         return 0;
