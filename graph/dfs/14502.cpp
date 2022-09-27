@@ -43,6 +43,9 @@ void dfs(int x, int y) {
 }
 
 int main(int argc, char** argv) {
+    /*
+     * Identify safe squares and virus squares.
+     */
     scanf("%d%d", &N, &M);
     for (int i = 0; N > i; ++i) {
         for (int j = 0; M > j; ++j) {
@@ -58,22 +61,34 @@ int main(int argc, char** argv) {
         }
     }
 
+    /*
+     * Review all possible permutations.
+     */
     for (int i = 0; safe_squares_cnt > i; ++i) {
         for (int j = i + 1; safe_squares_cnt > j; ++j) {
             for (int k = j + 1; safe_squares_cnt > k; ++k) {
+                /*
+                 * Generate new permutation.
+                 */
                 for (int u = 0; N > u; ++u) {
                     for (int v = 0; M > v; ++v) {
                         temp_grid[u][v] = grid[u][v];
                     }
                 }
-
                 ++temp_grid[safe_squares[i][0]][safe_squares[i][1]];
                 ++temp_grid[safe_squares[j][0]][safe_squares[j][1]];
                 ++temp_grid[safe_squares[k][0]][safe_squares[k][1]];
+                
+                /*
+                 * Let the virus spread.
+                 */
                 for (int t = 0; virus_squares_cnt > t; ++t) {
                     dfs(virus_squares[t][0], virus_squares[t][1]);   
                 }
 
+                /*
+                 * Count remaining safe squares.
+                 */
                 new_answer = 0;
                 for (int u = 0; N > u; ++u) {
                     for (int v = 0; M > v; ++v) {
@@ -82,6 +97,10 @@ int main(int argc, char** argv) {
                         }
                     }
                 }
+
+                /*
+                 * If permutation is more optimal, update answer.
+                 */
                 answer = max(answer, new_answer);
             }
         }
