@@ -12,12 +12,9 @@ constexpr int MAX_N = 8;
 constexpr int MAX_M = 8;
 constexpr int MIN_VIRUS_CNT = 2;
 constexpr int MAX_VIRUS_CNT = 10;
-constexpr int dx[4] = {0,0,-1,1};
-constexpr int dy[4] = {1,-1,0,0};
 
 int answer, new_answer;
 int N, M;
-int nx, ny;
 int grid[MAX_N][MAX_M];
 int temp_grid[MAX_N][MAX_M];
 int safe_squares_cnt, virus_squares_cnt;
@@ -25,14 +22,21 @@ int safe_squares[MAX_N * MAX_M - MIN_VIRUS_CNT][2];
 int virus_squares[MAX_VIRUS_CNT][2];
 
 void dfs(int x, int y) {
-    for (int i = 0; 4 > i; ++i) {
-        nx = x + dx[i];
-        ny = y + dy[i];
-
-        if (0 <= nx && N > nx && 0 <= ny && M > ny && 0 == temp_grid[nx][ny]) {
-            temp_grid[nx][ny] = 2;
-            dfs(nx, ny);
-        }
+    if (0 <= x - 1 && 0 == temp_grid[x - 1][y]) {
+        temp_grid[x - 1][y] = 2;
+        dfs(x - 1, y);
+    }
+    if (N > x + 1 && 0 == temp_grid[x + 1][y]) {
+        temp_grid[x + 1][y] = 2;
+        dfs(x + 1, y);
+    }
+    if (0 <= y - 1 && 0 == temp_grid[x][y - 1]) {
+        temp_grid[x][y - 1] = 2;
+        dfs(x, y - 1);
+    }
+    if (M > y + 1 && 0 == temp_grid[x][y + 1]) {
+        temp_grid[x][y + 1] = 2;
+        dfs(x, y + 1);
     }
 
     return;
