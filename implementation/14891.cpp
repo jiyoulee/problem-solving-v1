@@ -35,58 +35,16 @@ int main(int argc, char** argv) {
         /*
          * Determine rotation directions.
          */
-        switch(gear) {
-            case 1:
-                directions[1] = direction;
-                if (gears[1][(heads[1] + 2) % 8] != gears[2][(heads[2] + 6) % 8]) {
-                    directions[2] = -directions[1];
-                }
-                if (gears[2][(heads[2] + 2) % 8] != gears[3][(heads[3] + 6) % 8]) {
-                    directions[3] = -directions[2];
-                }
-                if (gears[3][(heads[3] + 2) % 8] != gears[4][(heads[4] + 6) % 8]) {
-                    directions[4] = -directions[3];
-                }
-                break;
-            case 2:
-                directions[2] = direction;
-                if (gears[1][(heads[1] + 2) % 8] != gears[2][(heads[2] + 6) % 8]) {
-                    directions[1] = -directions[2];
-                }
-                if (gears[2][(heads[2] + 2) % 8] != gears[3][(heads[3] + 6) % 8]) {
-                    directions[3] = -directions[2];
-                }
-                if (gears[3][(heads[3] + 2) % 8] != gears[4][(heads[4] + 6) % 8]) {
-                    directions[4] = -directions[3];
-                }
-                break;
-            case 3:
-                directions[3] = direction;
-                if (gears[2][(heads[2] + 2) % 8] != gears[3][(heads[3] + 6) % 8]) {
-                    directions[2] = -directions[3];
-                }
-                if (gears[1][(heads[1] + 2) % 8] != gears[2][(heads[2] + 6) % 8]) {
-                    directions[1] = -directions[2];
-                }
-                if (gears[3][(heads[3] + 2) % 8] != gears[4][(heads[4] + 6) % 8]) {
-                    directions[4] = -directions[3];
-                }
-                break;
-            case 4:
-                directions[4] = direction;
-                if (gears[3][(heads[3] + 2) % 8] != gears[4][(heads[4] + 6) % 8]) {
-                    directions[3] = -directions[4];
-                }
-                if (gears[2][(heads[2] + 2) % 8] != gears[3][(heads[3] + 6) % 8]) {
-                    directions[2] = -directions[3];
-                }
-                if (gears[1][(heads[1] + 2) % 8] != gears[2][(heads[2] + 6) % 8]) {
-                    directions[1] = -directions[2];
-                }
-                break;
-            default:
-                // do nothing
-                break;
+        directions[gear] = direction;
+        for (int i = gear, j = gear - 1; 0 < j; --i, --j) {
+            if (gears[j][(heads[j] + 2) % 8] != gears[i][(heads[i] + 6) % 8]) {
+                directions[j] = -directions[i]; 
+            }
+        }
+        for (int i = gear, j = gear + 1; 4 >= j; ++i, ++j) {
+            if (gears[i][(heads[i] + 2) % 8] != gears[j][(heads[j] + 6) % 8]) {
+                directions[j] = -directions[i];
+            }
         }
 
         /*
