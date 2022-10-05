@@ -46,20 +46,22 @@ void go(int depth) {
         memcpy(temp, grid, sizeof(grid));
 
         temp_cnt = 0;
-        int type, dir;
+        int x, y, type, dir;
         for (int k = 0; cctv_cnt > k; ++k) {
+            x = cctvs[k].x;
+            y = cctvs[k].y;
             type = cctvs[k].type;
             dir = cctvs[k].dir;
 
-            survey(cctvs[k].x, cctvs[k].y, dir);
+            survey(x, y, dir);
             if (1 != type && 2 != type) {
-                survey(cctvs[k].x, cctvs[k].y, (dir + 1) % 4);
+                survey(x, y, (dir + 1) % 4);
             }
             if (2 == type || 5 == type) {
-                survey(cctvs[k].x, cctvs[k].y, (dir + 2) % 4);
+                survey(x, y, (dir + 2) % 4);
             }
             if (4 == type || 5 == type) {
-                survey(cctvs[k].x, cctvs[k].y, (dir + 3) % 4);
+                survey(x, y, (dir + 3) % 4);
             }
         }
 
@@ -69,6 +71,12 @@ void go(int depth) {
     }
     
     for (cctvs[depth].dir = 0; 4 > cctvs[depth].dir; ++cctvs[depth].dir) {
+        if (2 == cctvs[depth].type && 1 < cctvs[depth].dir) {
+            break;
+        }
+        if (5 == cctvs[depth].type && 0 < cctvs[depth].dir) {
+            break;
+        }
         go(depth + 1);
     }   
 
