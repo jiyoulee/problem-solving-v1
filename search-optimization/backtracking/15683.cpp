@@ -40,12 +40,18 @@ void survey(int x, int y, int dir) {
 }
 
 void go(int depth, int cnt) {
+    /*
+     * In the event that all CCTVs have been activated, update answer.
+     */
     if (cctv_cnt == depth) {
         ans = min(ans, blindspot_cnt - cnt);
 
         return;
     }
 
+    /*
+     * Otherwise, activate current CCTV and continue on.
+     */
     for (int i = 0; 4 > i; ++i) {
         if (2 == cctvs[depth].type && 1 < i) {
             break;
@@ -54,9 +60,15 @@ void go(int depth, int cnt) {
             break;
         }
 
+        /*
+         * Save previous surveilance state.
+         */
         int temp[MAX_N][MAX_N];
         memcpy(temp, grid, sizeof(grid));
 
+        /*
+         * Activate current CCTV according to CCTV type and current direction.
+         */
         temp_cnt = 0;
         int x = cctvs[depth].x;
         int y = cctvs[depth].y;
@@ -73,8 +85,14 @@ void go(int depth, int cnt) {
             survey(x, y, (i + 3) % 4);
         }
 
+        /*
+         * Continue on.
+         */
         go(depth + 1, cnt + temp_cnt);
 
+        /*
+         * Upon returning, reload previous surveilance state. 
+         */
         memcpy(grid, temp, sizeof(grid));
     }   
 
@@ -82,20 +100,32 @@ void go(int depth, int cnt) {
 }
 
 int main(int argc, char** argv) {
+    /*
+     * Get initial surveilance state.
+     */
     scanf("%d%d", &N, &M);
     for (int i = 0; N > i; ++i) {
         for (int j = 0; M > j; ++j) {
             scanf("%d", &grid[i][j]);
 
+            /*
+             * Count initial number of blindspots.
+             */
             if (!grid[i][j]) {
                 ++blindspot_cnt;
-            }
+            }            
+            /*
+             * And, locate all CCTVs.
+             */
             else if (WALL != grid[i][j]) {
                 cctvs[cctv_cnt++] = {i, j, grid[i][j]};
             }
         }
     }
 
+    /*
+     * Review all non-duplicate surveilance states.
+     */
     go(0, 0);
 
     printf("%d", ans);
