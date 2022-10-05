@@ -21,7 +21,6 @@ struct CCTV {
     int x;
     int y;
     int type;
-    int dir;
 } cctvs[MAX_CCTV_CNT];
 
 int ans = 65;
@@ -46,17 +45,16 @@ void go(int depth, int cnt) {
 
         return;
     }
-    
-    int& dir = cctvs[depth].dir;
-    for (dir = 0; 4 > dir; ++dir) {
-        if (2 == cctvs[depth].type && 1 < dir) {
-            break;
-        }
-        if (5 == cctvs[depth].type && 0 < dir) {
-            break;
-        }
-        int temp[MAX_N][MAX_N];
 
+    for (int i = 0; 4 > i; ++i) {
+        if (2 == cctvs[depth].type && 1 < i) {
+            break;
+        }
+        if (5 == cctvs[depth].type && 0 < i) {
+            break;
+        }
+
+        int temp[MAX_N][MAX_N];
         memcpy(temp, grid, sizeof(grid));
 
         temp_cnt = 0;
@@ -64,15 +62,15 @@ void go(int depth, int cnt) {
         int y = cctvs[depth].y;
         int type = cctvs[depth].type;
 
-        survey(x, y, dir);
+        survey(x, y, i);
         if (1 != type && 2 != type) {
-            survey(x, y, (dir + 1) % 4);
+            survey(x, y, (i + 1) % 4);
         }
         if (2 == type || 5 == type) {
-            survey(x, y, (dir + 2) % 4);
+            survey(x, y, (i + 2) % 4);
         }
         if (4 == type || 5 == type) {
-            survey(x, y, (dir + 3) % 4);
+            survey(x, y, (i + 3) % 4);
         }
 
         go(depth + 1, cnt + temp_cnt);
