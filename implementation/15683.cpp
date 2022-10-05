@@ -23,7 +23,7 @@ struct CCTV {
     int dir;
 } cctvs[MAX_CCTV_CNT];
 
-int ans = 65, temp_ans;
+int ans, cnt;
 int N, M;
 int cctv_cnt;
 int grid[MAX_N][MAX_M];
@@ -37,30 +37,43 @@ void go(int depth) {
             }
         }
 
+        int temp_cnt = 0;
         for (int k = 0; cctv_cnt > k; ++k) {
             if (5 != cctvs[k].type) {
                 int dir = cctvs[k].dir;
 
                 for (int x = cctvs[k].x + dx[dir], y = cctvs[k].y + dy[dir]; 0 <= x && N > x && 0 <= y && M > y && WALL != temp[x][y]; x += dx[dir], y += dy[dir]) {
-                    temp[x][y] = 1;
+                    if (!temp[x][y]) {
+                        temp[x][y] = 1;
+                        ++temp_cnt;
+                    }
                 }                
 
                 switch(cctvs[k].type) {
                     case 2:
                         dir = (cctvs[k].dir + 2) % 4;
                         for (int x = cctvs[k].x + dx[dir], y = cctvs[k].y + dy[dir]; 0 <= x && N > x && 0 <= y && M > y && WALL != temp[x][y]; x += dx[dir], y += dy[dir]) {
-                            temp[x][y] = 1;
+                            if (!temp[x][y]) {
+                                temp[x][y] = 1;
+                                ++temp_cnt;
+                            }
                         }
                         break;      
                     case 4:
                         dir = (cctvs[k].dir + 3) % 4;
                         for (int x = cctvs[k].x + dx[dir], y = cctvs[k].y + dy[dir]; 0 <= x && N > x && 0 <= y && M > y && WALL != temp[x][y]; x += dx[dir], y += dy[dir]) {
-                            temp[x][y] = 1;
+                            if (!temp[x][y]) {
+                                temp[x][y] = 1;
+                                ++temp_cnt;
+                            }
                         }
                     case 3:
                         dir = (cctvs[k].dir + 1) % 4;
                         for (int x = cctvs[k].x + dx[dir], y = cctvs[k].y + dy[dir]; 0 <= x && N > x && 0 <= y && M > y && WALL != temp[x][y]; x += dx[dir], y += dy[dir]) {
-                            temp[x][y] = 1;
+                            if (!temp[x][y]) {
+                                temp[x][y] = 1;
+                                ++temp_cnt;
+                            }
                         }
                         break;
                     default:
@@ -69,17 +82,7 @@ void go(int depth) {
             }
         }
 
-        for (int i = 0; N > i; ++i) {
-            for (int j = 0; M > j; ++j) {
-                if (EMPTY == temp[i][j]) {
-                    ++temp_ans;
-                }
-            }
-        }
-
-        ans = min(ans, temp_ans);
-
-        temp_ans = 0;
+        cnt = max(cnt, temp_cnt);
 
         return;
     }
@@ -97,7 +100,10 @@ int main(int argc, char** argv) {
     for (int i = 0; N > i; ++i) {
         for (int j = 0; M > j; ++j) {
             scanf("%d", &grid[i][j]);
-            if (grid[i][j] && WALL != grid[i][j]) {
+            if (!grid[i][j]) {
+                ++ans;
+            }
+            else if (WALL != grid[i][j]) {
                 cctvs[cctv_cnt].x = i;
                 cctvs[cctv_cnt].y = j;
                 cctvs[cctv_cnt++].type = grid[i][j];
@@ -111,23 +117,35 @@ int main(int argc, char** argv) {
             int y = cctvs[k].y;
 
             for (int i = -1; 0 <= (x + i) && WALL != grid[x + i][y]; --i) {
-                grid[x + i][y] = 1;
+                if (!grid[x + i][y]) {
+                    grid[x + i][y] = 1;
+                    --ans;
+                }
             }
             for (int i = 1; M > (y + i) && WALL != grid[x][y + i]; ++i) {
-                grid[x][y + i] = 1;
+                if (!grid[x][y + i]) {
+                    grid[x][y + i] = 1;
+                    --ans;
+                }
             }
             for (int i = 1; N > (x + i) && WALL != grid[x + i][y]; ++i) {
-                grid[x + i][y] = 1;
+                if (!grid[x + i][y]) {
+                    grid[x + i][y] = 1;
+                    --ans;
+                }
             }
             for (int i = -1; 0 <= (y + i) && WALL != grid[x][y + i]; --i) {
-                grid[x][y + i] = 1;
+                if (!grid[x][y + i]) {
+                    grid[x][y + i] = 1;
+                    --ans;
+                }
             }
         }
     }
 
     go(0);
 
-    printf("%d", ans);
+    printf("%d", ans - cnt);
 
     return 0;
 }
