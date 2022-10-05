@@ -28,12 +28,11 @@ int ans = 65;
 int N, M;
 int cctv_cnt, blindspot_cnt, temp_cnt;
 int grid[MAX_N][MAX_M];
-int temp[MAX_N][MAX_N];
 
 void survey(int x, int y, int dir) {
-    for (x += dx[dir], y += dy[dir]; 0 <= x && N > x && 0 <= y && M > y && WALL != temp[x][y]; x += dx[dir], y += dy[dir]) {
-        if (!temp[x][y]) {
-            temp[x][y] = 1;
+    for (x += dx[dir], y += dy[dir]; 0 <= x && N > x && 0 <= y && M > y && WALL != grid[x][y]; x += dx[dir], y += dy[dir]) {
+        if (!grid[x][y]) {
+            grid[x][y] = 1;
             ++temp_cnt;
         }
     }
@@ -41,43 +40,44 @@ void survey(int x, int y, int dir) {
     return;
 }
 
-void go(int depth) {
+void go(int depth, int cnt) {
     if (cctv_cnt == depth) {
-        memcpy(temp, grid, sizeof(grid));
-
-        temp_cnt = 0;
-        int x, y, type, dir;
-        for (int k = 0; cctv_cnt > k; ++k) {
-            x = cctvs[k].x;
-            y = cctvs[k].y;
-            type = cctvs[k].type;
-            dir = cctvs[k].dir;
-
-            survey(x, y, dir);
-            if (1 != type && 2 != type) {
-                survey(x, y, (dir + 1) % 4);
-            }
-            if (2 == type || 5 == type) {
-                survey(x, y, (dir + 2) % 4);
-            }
-            if (4 == type || 5 == type) {
-                survey(x, y, (dir + 3) % 4);
-            }
-        }
-
-        ans = min(ans, blindspot_cnt - temp_cnt);
+        ans = min(ans, blindspot_cnt - cnt);
 
         return;
     }
     
-    for (cctvs[depth].dir = 0; 4 > cctvs[depth].dir; ++cctvs[depth].dir) {
-        if (2 == cctvs[depth].type && 1 < cctvs[depth].dir) {
+    int& dir = cctvs[depth].dir;
+    for (dir = 0; 4 > dir; ++dir) {
+        if (2 == cctvs[depth].type && 1 < dir) {
             break;
         }
-        if (5 == cctvs[depth].type && 0 < cctvs[depth].dir) {
+        if (5 == cctvs[depth].type && 0 < dir) {
             break;
         }
-        go(depth + 1);
+        int temp[MAX_N][MAX_N];
+
+        memcpy(temp, grid, sizeof(grid));
+
+        temp_cnt = 0;
+        int x = cctvs[depth].x;
+        int y = cctvs[depth].y;
+        int type = cctvs[depth].type;
+
+        survey(x, y, dir);
+        if (1 != type && 2 != type) {
+            survey(x, y, (dir + 1) % 4);
+        }
+        if (2 == type || 5 == type) {
+            survey(x, y, (dir + 2) % 4);
+        }
+        if (4 == type || 5 == type) {
+            survey(x, y, (dir + 3) % 4);
+        }
+
+        go(depth + 1, cnt + temp_cnt);
+
+        memcpy(grid, temp, sizeof(grid));
     }   
 
     return;
@@ -98,7 +98,7 @@ int main(int argc, char** argv) {
         }
     }
 
-    go(0);
+    go(0, 0);
 
     printf("%d", ans);
 
