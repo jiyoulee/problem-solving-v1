@@ -94,7 +94,6 @@ void go(int depth) {
 
 int main(int argc, char** argv) {
     scanf("%d%d", &N, &M);
-    cctv_cnt = 0;
     for (int i = 0; N > i; ++i) {
         for (int j = 0; M > j; ++j) {
             scanf("%d", &grid[i][j]);
