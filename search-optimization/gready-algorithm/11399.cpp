@@ -1,26 +1,32 @@
-#include <bits/stdc++.h>
+/*
+ * Title: ATM
+ * Link: https://www.acmicpc.net/problem/11399
+ */
+
+#include <cstdio>
+#include <algorithm>
+
 using namespace std;
 
-int N, sum, ans;
-int a[1001];
+constexpr int MAX_N = 1000;
 
-int main() {
-	scanf("%d", &N);
-	for (int i = 1; i <= N; i++) {
-		scanf("%d", a + i);
-	}
-	
-	/*
-	 * The total time taken given a list of N times is sigma(sum from the first time to the ith time) = sigma((N - i + 1) * ith time).
-	 * The maximum total time taken given a list of N times is the total time taken after sorting the given list in increasing order.
-	 */
-	sort(a + 1, a + 1 + N);
-	for (int i = 1; i <= N; i++) { // i is the index of the ith largest time
-		sum += a[i];
-		ans += sum;
-	}
-	
-	printf("%d", ans);
-	
-	return 0;
+int ans;
+int N;
+int P[MAX_N];
+
+int main(int argc, char** argv) {
+    scanf("%d", &N);
+    for (int i = 0; N > i; ++i) {
+        scanf("%d", &P[i]);
+    }
+
+    sort(P, P + N);
+
+    for (int i = 0; N > i; ++i) {
+        ans += (N - i) * P[i];
+    }
+
+    printf("%d", ans);
+
+    return 0;
 }
