@@ -1,45 +1,51 @@
-#include <bits/stdc++.h>
+/*
+ * Title: 사이클 게임
+ * Link: https://www.acmicpc.net/problem/20040
+ */
+
+#include <cstdio>
+#include <cstring>
+
 using namespace std;
 
+constexpr int MAX_N = 500000;
+
 int N, M, U, V;
-int parent[500000];
+int parent[MAX_N];
 
-int find(int x) {
-	if (x == parent[x]) {
-		return x;
-	}
-	
-	return parent[x] = find(parent[x]);
+int find(int n) {
+    if (-1 == parent[n]) {
+        return n;
+    }
+
+    return parent[n] = find(parent[n]);
 }
 
-void merge(int a, int b) {
-	a = find(a);
-	b = find(b);
-	
-	parent[b] = a;
+bool merge(int a, int b) {
+    int A = find(a);
+    int B = find(b);
+
+    if (A != B) {
+        parent[B] = A;
+    }
+
+    return A != B;
 }
 
-int main() {
-	scanf("%d%d", &N, &M);
-	
-	/*
-	 * Initialize union-find.
-	 */
-	for (int i = 0; i < N; i++) {
-		parent[i] = i;
-	}
-	
-	for (int i = 1; i <= M; i++) {
-		scanf("%d%d", &U, &V);
-		
-		if (find(U) == find(V)) {
-			printf("%d", i);
-			return 0;
-		}
-		
-		merge(U, V);
-	}
-	printf("0");
-	
-	return 0;
+int main(int argc, char** argv) {
+    scanf("%d%d", &N, &M);
+
+    memset(parent, -1, sizeof(int) * N);
+    for (int i = 1; M >= i; ++i) {
+        scanf("%d%d", &U, &V);
+        if (!merge(U, V)) {
+            printf("%d", i);
+
+            return 0;
+        }
+    }
+
+    printf("0");
+
+    return 0;
 }
