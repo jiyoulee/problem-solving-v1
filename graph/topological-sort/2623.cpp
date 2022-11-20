@@ -1,55 +1,60 @@
-#include <bits/stdc++.h>
+/*
+ * Title: 음악프로그램
+ * Link: https://www.acmicpc.net/problem/2623
+ */
+
+#include <cstdio>
+#include <vector>
+#include <queue>
+
 using namespace std;
 
-int L, N, M, U, V, c;
-vector<int> g[1001];
-int indegree[1001];
-queue<int> q;
-vector<int> v;								// Task completion order.
+constexpr int MAX_N = 1000;
 
-int main() {
+int N, M, K, U, V;
+int cnt;
+int answer[1 + MAX_N];
+int indegree[1 + MAX_N];
+vector<int> G[1 + MAX_N];
+queue<int> q;
+
+int main(int argc, char** argv) {
 	scanf("%d%d", &N, &M);
-	for (int i = 1; i <= M; i++) {
-		scanf("%d%d", &L, &U);
-		
-		for (int i = 1; i <= L - 1; i++) {
+	while (M--) {
+		scanf("%d%d", &K, &U);
+		while (--K) {
 			scanf("%d", &V);
-			
-			g[U].push_back(V);
-			indegree[V] += 1;
-			
+
+			++indegree[V];
+			G[U].emplace_back(V);
 			U = V;
 		}
 	}
 
-	for (int i = 1; i <= N; i++) {
-		if (0 == indegree[i]) {
-			q.push(i);
+	for (int i = 1; N >= i; ++i) {
+		if (!indegree[i]) {
+			q.emplace(i);
 		}
 	}
-
-	while (!q.empty()) {					// O(N + M)
-		U = q.front();
-		
-		c += 1;								// Count tasks considered.
-		v.push_back(U);						// Add finished task to order.
-		
+	for (cnt = 0; N > cnt && !q.empty(); ++cnt) {
+		V = q.front();
 		q.pop();
-		
-		for (auto u : g[U]) {
-			indegree[u] -= 1;				// Notify completion of task. 
-			
-			if (0 == indegree[u]) {			// All prerequesite tasks have been completed.
-				q.push(u);					// Add task to the to-be-considered-queue.
+
+		answer[cnt] = V;
+		for (auto& child : G[V]) {
+			if (!--indegree[child]) {
+				q.emplace(child);
 			}
 		}
 	}
 
-	if (N != c) {							// Some task who's some prerequisite task has not yet been complete exists.
+	if (N != cnt) {
 		printf("0");
 	}
-	else for (auto u : v) {
-		printf("%d\n", u);
+	else {
+		for (int i = 0; N > i; ++i) {
+			printf("%d\n", answer[i]);
+		}
 	}
 
 	return 0;
